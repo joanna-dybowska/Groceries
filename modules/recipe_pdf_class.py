@@ -40,8 +40,6 @@ class RecipePDF:
         for i in range(0, len(text_lines)-2):
             if is_an_ingredient[i] and not is_an_ingredient[i+1] and is_an_ingredient[i+2]:
                 text_lines[i] = text_lines[i].strip()+" "+text_lines[i+1].strip()
-                text_lines.pop(i+1)
-                is_an_ingredient.pop(i+1)
         recipe_text_lines = [line.strip().replace("•	 ", "• ").replace("•	", "• ")
                              for line in text_lines if "•" in line]
         recipe = ("\n").join(recipe_text_lines).strip()
