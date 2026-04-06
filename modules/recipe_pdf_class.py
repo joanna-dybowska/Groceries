@@ -31,7 +31,6 @@ class RecipePDF:
                 self.title_list.append(self.get_recipe_title(text))
                 self.servings_list.append((text.split(start))[1].split(end)[0].strip())
 
-    # TODO: correct for a recipe on page 128, rewrite the loop
     @staticmethod
     def get_recipe_ingredients(text):
         text_lines = text.split("\n")
