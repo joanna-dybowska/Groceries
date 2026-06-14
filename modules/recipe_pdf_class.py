@@ -7,24 +7,25 @@ class RecipePDF:
         self.pdf_file_path = pdf_file_path
         self.txt_file_path = txt_file_path
 
-        self.doc = pymupdf.open(pdf_file_path)
+        doc = pymupdf.open(pdf_file_path)
         self.recipe_list = []
         self.title_list = []
         self.servings_list = []
 
         if pages_numbers_list:
             for page_number in pages_numbers_list:
-                page = self.doc[page_number-1]
+                page = doc[page_number-1]
                 self.extract_recipe_title_servings_from_page(page)
         else:
-            for page in self.doc: # iterate the document pages
+            for page in doc: # iterate the document pages
                 self.extract_recipe_title_servings_from_page(page)
+        doc.close()
 
     def extract_recipe_title_servings_from_page(self, page):
         start = 'Składniki na:'
         end = 'porcj'
-        text = page.get_text()  # get plain text encoded as UTF-8
-        if text.strip():
+        text = page.get_text().strip().replace(" ", "")  # get plain text encoded as UTF-8
+        if text:
             recipe = self.get_recipe_ingredients(text)
             if recipe:
                 self.recipe_list.append(recipe)
