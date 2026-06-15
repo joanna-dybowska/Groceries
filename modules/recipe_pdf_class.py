@@ -47,15 +47,15 @@ class RecipePDF:
 
     @staticmethod
     def get_recipe_title(text):
-        upper_case_words = re.findall(r"\b[A-Z]+\b", text)
-        return (" ".join(upper_case_words)
+        polish_short_words = [] # TODO
+        upper_case_words = re.findall(r'\b[A-ZĄĆĘŁŃÓŚŹŻ]+\b', text)
+        ok_words = [w for w in upper_case_words if (len(w)>3 or w in polish_short_words)]
+        return (" ".join(ok_words)
                 .replace("PRZYGOTOWANIE", "")
+                .replace("SKŁADNIKI", "")
                 .replace("KLIK", "")
-                .replace("K B T WP F WW", "")
+                .replace("\n", " ")
                 .strip()
-                .removesuffix(" C")
-                .removesuffix(" W")
-                .removesuffix(" Z")
                 )
 
     def correct_titles_user_input(self):
