@@ -1,4 +1,5 @@
 import re
+import json
 import pymupdf # pip install PyMuPDF
 
 class RecipePDF:
@@ -47,9 +48,10 @@ class RecipePDF:
 
     @staticmethod
     def get_recipe_title(text):
-        polish_short_words = [] # TODO
+        with open("../json/polish_short_words.json", "r", encoding="utf-8-sig") as f:
+            polish_short_words = json.load(f)
         upper_case_words = re.findall(r'\b[A-ZĄĆĘŁŃÓŚŹŻ]+\b', text)
-        ok_words = [w for w in upper_case_words if (len(w)>3 or w in polish_short_words)]
+        ok_words = [w for w in upper_case_words if (len(w)>2 or w.lower() in polish_short_words)]
         return (" ".join(ok_words)
                 .replace("PRZYGOTOWANIE", "")
                 .replace("SKŁADNIKI", "")
@@ -82,6 +84,7 @@ if __name__ == "__main__":
     # recipe_pdf.correct_titles_user_input()
     # recipe_pdf.save_recipes_txt_file()
 
-    recipe_pdf = RecipePDF("../2000-kcal-DIY-WYSOKOBIALKOWY.pdf", "../recipes.txt", [73, 79, 87])
+    recipe_pdf = RecipePDF("../results/2000-kcal-DIY-WYSOKOBIALKOWY.pdf", "../test/recipes2.txt",
+                           [75, 95, 102, 111, 118, 136, 138, 140])
     recipe_pdf.correct_titles_user_input()
     recipe_pdf.save_recipes_txt_file()
